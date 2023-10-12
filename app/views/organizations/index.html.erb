@@ -1,0 +1,39 @@
+<div class="card">
+  <h5 class="card-header">Organizations</h5>
+  <div class="card-body">
+
+    <div class="mb-3 float-end">
+      <%= form_tag organizations_path, method: :get, class: "card-text" do %>
+        <%= search_field_tag :search, params[:search], class: "form-control", placeholder: "Search..." %>
+      <% end %>
+    </div>
+
+    <table id="organizations" class="table table-bordered">
+      <tr>
+        <th>Name</th>
+        <th>Phone</th>
+        <th>Email</th>
+        <th>Website</th>
+        <th>Logo</th>
+        <th>Account Manager</th>
+        <th></th>
+      </tr>
+      <% @organizations.each do |organization| %>
+        <tr id="<%= dom_id organization %>">
+          <td><%= organization.name %></td>
+          <td><%= organization.phone %></td>
+          <td><%= organization.email %></td>
+          <td><%= organization.website %></td>
+          <td><%= image_tag organization.logo, class: "img-thumbnail", style: "max-width:50px" if organization.logo.attached? %></td>
+          <td><%= organization.account_manager.present? ? organization.account_manager.email : nil %></td>
+          <td>
+            <%= link_to "Show", organization %>
+            <%= link_to "Edit", edit_organization_path(organization) if account_manager_for?(organization) %>
+          </td>
+        </tr>
+      <% end %>
+    </table>
+    <%= link_to "Add", new_organization_path, class: "btn btn-primary" if is_admin? %>
+
+  </div>
+</div>

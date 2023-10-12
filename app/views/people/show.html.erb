@@ -1,0 +1,48 @@
+<div class="card">
+  <h5 class="card-header">Person</h5>
+  <div class="card-body">
+
+    <div id="<%= dom_id @person %>">
+      <div class="mb-3 row">
+        <%= label_tag :organization_id, "Organization:", class: "col-sm-2 col-form-label" %>
+        <div class="col-sm-10">
+          <%= text_field_tag :organization_id, @person.organization.name, class: "form-control-plaintext", readonly: true %>
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <%= label_tag :name, "Name:", class: "col-sm-2 col-form-label" %>
+        <div class="col-sm-10">
+          <%= text_field_tag :name, @person.name, class: "form-control-plaintext", readonly: true %>
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <%= label_tag :email, "Email:", class: "col-sm-2 col-form-label" %>
+        <div class="col-sm-10">
+          <%= text_field_tag :email, @person.email, class: "form-control-plaintext", readonly: true %>
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <%= label_tag :phone, "Phone:", class: "col-sm-2 col-form-label" %>
+        <div class="col-sm-10">
+          <%= text_field_tag :phone, @person.phone, class: "form-control-plaintext", readonly: true %>
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <%= label_tag :avatar, "Avatar:", class: "col-sm-2 col-form-label" %>
+        <div class="col-sm-10">
+          <% if @person.avatar.attached? %>
+            <%= image_tag @person.avatar, class: "img-thumbnail", style: "max-width:200px" %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class="btn-toolbar">
+      <% if account_manager_for?(@person.organization) %>
+        <%= link_to "Edit", edit_organization_person_path(@person.organization_id, @person), class: "btn btn-primary" %>&nbsp;
+        <%= button_to "Delete", [@person.organization, @person], method: :delete, class: "btn btn-danger" %>
+      <% end %> 
+      <%= link_to "Back to list", @person.organization, class: "btn btn-link" %> 
+    </div>
+  </div>
+</div>

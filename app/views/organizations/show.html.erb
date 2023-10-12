@@ -1,0 +1,86 @@
+<div class="card">
+  <h5 class="card-header">Organizations</h5>
+  <div class="card-body">
+
+    <div id="<%= dom_id @organization %>">
+      <div class="mb-3 row">
+        <%= label_tag :name, "Name:", class: "col-sm-2 col-form-label" %>
+        <div class="col-sm-10">
+          <%= text_field_tag :name, @organization.name, class: "form-control-plaintext", readonly: true %>
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <%= label_tag :phone, "Phone:", class: "col-sm-2 col-form-label" %>
+        <div class="col-sm-10">
+          <%= text_field_tag :phone, @organization.phone, class: "form-control-plaintext", readonly: true %>
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <%= label_tag :email, "Email:", class: "col-sm-2 col-form-label" %>
+        <div class="col-sm-10">
+          <%= text_field_tag :email, @organization.email, class: "form-control-plaintext", readonly: true %>
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <%= label_tag :website, "Website:", class: "col-sm-2 col-form-label" %>
+        <div class="col-sm-10">
+          <%= text_field_tag :website, @organization.website, class: "form-control-plaintext", readonly: true %>
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <%= label_tag :logo, "Logo:", class: "col-sm-2 col-form-label" %>
+        <div class="col-sm-10">
+          <% if @organization.logo.attached? %>
+            <%= image_tag @organization.logo, class: "img-thumbnail", style: "max-width:200px" %>
+          <% end %>
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <%= label_tag :account_manager_id, "Account Manager:", class: "col-sm-2 col-form-label" %>
+        <div class="col-sm-10">
+          <%= text_field_tag :account_manager_id, @organization.account_manager.present? ? @organization.account_manager.email : "- unassigned -", class: "form-control-plaintext", readonly: true %>
+        </div>
+      </div>
+    </div>
+
+    <div class="btn-toolbar">
+      <% if account_manager_for?(@organization) %>
+        <%= link_to "Edit", edit_organization_path(@organization), class: "btn btn-primary" %>&nbsp;
+        <%= button_to "Delete", @organization, method: :delete, class: "btn btn-danger" %>
+      <% end %> 
+      <%= link_to "Back to list", organizations_path, class: "btn btn-link" %> 
+    </div>
+  </div>
+
+  <div class="card-footer">
+    <div class="card">
+      <h5 class="card-header">PICs</h5>
+      <div class="card-body">
+
+        <table id="people" class="table table-bordered">
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Avatar</th>
+            <th></th>
+          </tr>
+          <% @organization.people.each do |person| %>
+            <tr id="<%= dom_id person %>">
+              <td><%= person.name %></td>
+              <td><%= person.email %></td>
+              <td><%= person.phone %></td>
+              <td><%= image_tag person.avatar, class: "img-thumbnail", style: "max-width:50px" if person.avatar.attached? %></td>
+              <td>
+                <%= link_to "Show", [@organization, person] %>
+                <%= link_to "Edit", edit_organization_person_path(@organization.id, person) if account_manager_for?(@organization) %>
+              </td>
+            </tr>
+          <% end %>
+        </table>
+        <%= link_to "Add", new_organization_person_path(@organization), class: "btn btn-primary" if account_manager_for?(@organization) %>
+
+      </div>
+    </div>
+  </div>
+</div>

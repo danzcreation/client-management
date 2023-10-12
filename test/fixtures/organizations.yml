@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: Company1
+  phone: 0987654321
+  email: company1@example.com
+  website: MyString
+  account_manager: two
+
+two:
+  name: Company2
+  phone: 0987654321
+  email: company2@example.com
+  website: MyString
+  account_manager: two

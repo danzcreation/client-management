@@ -1,0 +1,24 @@
+<div class="card">
+  <h5 class="card-header">Users</h5>
+  <div class="card-body">
+    <table id="users" class="table table-bordered">
+      <tr>
+        <th>Email</th>
+        <th>Type</th>
+        <th></th>
+      </tr>
+      <% @users.each do |user| %>
+        <tr id="<%= dom_id user %>">
+          <td><%= user.email %></td>
+          <td><%= user.kind.titleize %></td>
+          <td>
+            <%= link_to "Show", user %>
+            <%= link_to "Edit", edit_user_path(user) %>
+          </td>
+        </tr>
+      <% end %>
+    </table>
+    <%= link_to "Add", new_user_path, class: "btn btn-primary" %>
+
+  </div>
+</div>
